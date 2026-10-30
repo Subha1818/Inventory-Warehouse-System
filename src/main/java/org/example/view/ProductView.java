@@ -9,9 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class ProductView {
+public class ProductView extends JPanel {
 
-    private JFrame frame;
     private JTextField nameField;
     private JTextField quantityField;
     private JComboBox<String> categoryComboBox;
@@ -22,10 +21,8 @@ public class ProductView {
 
     public ProductView() {
 
-        frame = new JFrame("Inventory Management System");
-        frame.setSize(800, 450);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
+        setLayout(new BorderLayout(10, 10));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Input fields
         JPanel inputPanel = new JPanel(new FlowLayout());
@@ -51,7 +48,8 @@ public class ProductView {
 
         // Product table
         tableModel = new DefaultTableModel(
-                new String[]{"ID", "Product Name", "Quantity", "Category"}, 0
+                new String[]{"ID", "Product Name", "Quantity", "Category"},
+                0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -62,10 +60,9 @@ public class ProductView {
         JTable table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
 
-        // Window layout
-        frame.setLayout(new BorderLayout(10, 10));
-        frame.add(inputPanel, BorderLayout.NORTH);
-        frame.add(scrollPane, BorderLayout.CENTER);
+        // Panel layout
+        add(inputPanel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
 
         // Button actions
         addButton.addActionListener(e -> {
@@ -130,10 +127,6 @@ public class ProductView {
     }
 
     public void showMessage(String message) {
-        JOptionPane.showMessageDialog(frame, message);
-    }
-
-    public void showWindow() {
-        frame.setVisible(true);
+        JOptionPane.showMessageDialog(this, message);
     }
 }

@@ -1,3 +1,4 @@
+
 package org.example.view;
 
 import org.example.model.Supplier;
@@ -7,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-public class SupplierView extends JFrame {
+public class SupplierView extends JPanel {
 
     private JTextField nameField;
     private JTextField phoneField;
@@ -20,10 +21,9 @@ public class SupplierView extends JFrame {
     private JTable supplierTable;
 
     public SupplierView() {
-        setTitle("Supplier Management");
-        setSize(750, 450);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+
+        setLayout(new BorderLayout(10, 10));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         nameField = new JTextField(15);
         phoneField = new JTextField(15);
@@ -34,7 +34,7 @@ public class SupplierView extends JFrame {
 
         JPanel formPanel = new JPanel(new GridLayout(4, 2, 8, 8));
         formPanel.setBorder(
-                BorderFactory.createEmptyBorder(15, 15, 15, 15)
+                BorderFactory.createEmptyBorder(5, 5, 10, 5)
         );
 
         formPanel.add(new JLabel("Supplier Name:"));
@@ -107,9 +107,5 @@ public class SupplierView extends JFrame {
 
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
-    }
-
-    public void showWindow() {
-        setVisible(true);
     }
 }

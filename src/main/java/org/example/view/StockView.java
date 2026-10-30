@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-public class StockView extends JFrame {
+public class StockView extends JPanel {
 
     private JComboBox<Product> productComboBox;
     private JComboBox<String> typeComboBox;
@@ -22,10 +22,9 @@ public class StockView extends JFrame {
     private JTable transactionTable;
 
     public StockView() {
-        setTitle("Stock Inward / Outward");
-        setSize(850, 500);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+
+        setLayout(new BorderLayout(10, 10));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         productComboBox = new JComboBox<>();
         typeComboBox = new JComboBox<>(
@@ -52,10 +51,14 @@ public class StockView extends JFrame {
 
         tableModel = new DefaultTableModel(
                 new String[]{
-                        "Transaction ID", "Product ID",
-                        "Product Name", "Type",
-                        "Quantity", "Date"
-                }, 0
+                        "Transaction ID",
+                        "Product ID",
+                        "Product Name",
+                        "Type",
+                        "Quantity",
+                        "Date"
+                },
+                0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -122,9 +125,5 @@ public class StockView extends JFrame {
 
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
-    }
-
-    public void showWindow() {
-        setVisible(true);
     }
 }

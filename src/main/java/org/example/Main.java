@@ -2,77 +2,103 @@
 package org.example;
 
 import org.example.controller.ProductController;
-import org.example.controller.StockController;
 import org.example.controller.SupplierController;
+import org.example.controller.StockController;
 
 import org.example.model.CategoryDAO;
 import org.example.model.ProductDAO;
-import org.example.model.StockDAO;
 import org.example.model.SupplierDAO;
+import org.example.model.StockDAO;
 
 import org.example.view.ProductView;
-import org.example.view.StockView;
 import org.example.view.SupplierView;
+import org.example.view.StockView;
 
-import javax.swing.SwingUtilities;
-import java.sql.SQLException;
+import javax.swing.*;
+import java.awt.*;
 
 public class Main {
 
     public static void main(String[] args) {
+
         SwingUtilities.invokeLater(() -> {
 
             try {
+                // Initialize database access
                 CategoryDAO categoryDAO = new CategoryDAO();
-                categoryDAO.createTable();
+                ProductDAO productDAO = new ProductDAO();
+                SupplierDAO supplierDAO = new SupplierDAO();
+                StockDAO stockDAO = new StockDAO();
 
+                // Add default categories if they do not exist
                 categoryDAO.addCategory("Grains");
                 categoryDAO.addCategory("Fertilizer");
                 categoryDAO.addCategory("Seeds");
                 categoryDAO.addCategory("Equipment");
 
-                ProductDAO productDAO = new ProductDAO();
-                productDAO.ensureCategoryColumn();
+                // Create the three panels
+                ProductView productView = new ProductView();
+                SupplierView supplierView = new SupplierView();
+                StockView stockView = new StockView();
 
-                SupplierDAO supplierDAO = new SupplierDAO();
-                supplierDAO.createTable();
+                // Connect each panel to its controller
+                new ProductController(productDAO, productView);
 
-                StockDAO stockDAO = new StockDAO();
-                stockDAO.createTable();
+                new SupplierController(supplierDAO, supplierView);
 
-                System.out.println(
-                        "Database initialized successfully!"
+                new StockController(
+                        productDAO,
+                        stockDAO,
+                        stockView
                 );
 
-            } catch (SQLException e) {
-                System.out.println(
-                        "Database error: " + e.getMessage()
+                // Create the main application window
+                JFrame frame = new JFrame(
+                        "Inventory & Warehouse Management System"
                 );
-                return;
+
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(1000, 650);
+                frame.setMinimumSize(new Dimension(800, 500));
+                frame.setLocationRelativeTo(null);
+                frame.setLayout(new BorderLayout());
+
+                // Application heading
+                JLabel heading = new JLabel(
+                        "Inventory & Warehouse Management System",
+                        SwingConstants.CENTER
+                );
+
+                heading.setFont(new Font("Arial", Font.BOLD, 20));
+                heading.setBorder(
+                        BorderFactory.createEmptyBorder(15, 10, 15, 10)
+                );
+
+                // Create tabs
+                JTabbedPane tabs = new JTabbedPane();
+
+                tabs.addTab("Products", productView);
+                tabs.addTab("Suppliers", supplierView);
+                tabs.addTab("Stock Management", stockView);
+
+                // Add heading and tabs to the main window
+                frame.add(heading, BorderLayout.NORTH);
+                frame.add(tabs, BorderLayout.CENTER);
+
+                // Display the application
+                frame.setVisible(true);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Could not start the application:\n"
+                                + e.getMessage(),
+                        "Startup Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
-
-            // Product window
-            ProductDAO productDAO = new ProductDAO();
-            ProductView productView = new ProductView();
-
-            new ProductController(productDAO, productView);
-            productView.showWindow();
-
-            // Supplier window
-            SupplierDAO supplierDAO = new SupplierDAO();
-            SupplierView supplierView = new SupplierView();
-
-            new SupplierController(supplierDAO, supplierView);
-            supplierView.showWindow();
-
-            // Stock window
-            StockDAO stockDAO = new StockDAO();
-            StockView stockView = new StockView();
-
-            new StockController(
-                    productDAO, stockDAO, stockView
-            );
-            stockView.showWindow();
         });
     }
 }
