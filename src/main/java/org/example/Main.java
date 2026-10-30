@@ -1,11 +1,17 @@
+
 package org.example;
 
 import org.example.controller.ProductController;
+import org.example.controller.StockController;
 import org.example.controller.SupplierController;
+
 import org.example.model.CategoryDAO;
 import org.example.model.ProductDAO;
+import org.example.model.StockDAO;
 import org.example.model.SupplierDAO;
+
 import org.example.view.ProductView;
+import org.example.view.StockView;
 import org.example.view.SupplierView;
 
 import javax.swing.SwingUtilities;
@@ -17,7 +23,6 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
 
             try {
-                // Initialize categories
                 CategoryDAO categoryDAO = new CategoryDAO();
                 categoryDAO.createTable();
 
@@ -26,13 +31,14 @@ public class Main {
                 categoryDAO.addCategory("Seeds");
                 categoryDAO.addCategory("Equipment");
 
-                // Initialize product category column
                 ProductDAO productDAO = new ProductDAO();
                 productDAO.ensureCategoryColumn();
 
-                // Initialize suppliers table
                 SupplierDAO supplierDAO = new SupplierDAO();
                 supplierDAO.createTable();
+
+                StockDAO stockDAO = new StockDAO();
+                stockDAO.createTable();
 
                 System.out.println(
                         "Database initialized successfully!"
@@ -45,19 +51,28 @@ public class Main {
                 return;
             }
 
-            // Open Product Management
+            // Product window
             ProductDAO productDAO = new ProductDAO();
             ProductView productView = new ProductView();
 
             new ProductController(productDAO, productView);
             productView.showWindow();
 
-            // Open Supplier Management
+            // Supplier window
             SupplierDAO supplierDAO = new SupplierDAO();
             SupplierView supplierView = new SupplierView();
 
             new SupplierController(supplierDAO, supplierView);
             supplierView.showWindow();
+
+            // Stock window
+            StockDAO stockDAO = new StockDAO();
+            StockView stockView = new StockView();
+
+            new StockController(
+                    productDAO, stockDAO, stockView
+            );
+            stockView.showWindow();
         });
     }
 }
