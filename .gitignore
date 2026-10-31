@@ -1,4 +1,5 @@
 target/
+InventorySystem/out/
 inventory.db
 inventory.db-*
 !.mvn/wrapper/maven-wrapper.jar

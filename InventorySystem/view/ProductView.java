@@ -1,7 +1,7 @@
 
-package org.example.view;
+package InventorySystem.view;
 
-import org.example.model.Product;
+import InventorySystem.model.Product;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

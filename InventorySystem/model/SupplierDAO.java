@@ -1,6 +1,6 @@
-package org.example.model;
+package InventorySystem.model;
 
-import org.example.Database;
+import InventorySystem.Database;
 
 import java.sql.*;
 import java.util.ArrayList;

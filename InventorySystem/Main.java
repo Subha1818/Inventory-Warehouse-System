@@ -1,18 +1,18 @@
 
-package org.example;
+package InventorySystem;
 
-import org.example.controller.ProductController;
-import org.example.controller.SupplierController;
-import org.example.controller.StockController;
+import InventorySystem.controller.ProductController;
+import InventorySystem.controller.SupplierController;
+import InventorySystem.controller.StockController;
 
-import org.example.model.CategoryDAO;
-import org.example.model.ProductDAO;
-import org.example.model.SupplierDAO;
-import org.example.model.StockDAO;
+import InventorySystem.model.CategoryDAO;
+import InventorySystem.model.ProductDAO;
+import InventorySystem.model.SupplierDAO;
+import InventorySystem.model.StockDAO;
 
-import org.example.view.ProductView;
-import org.example.view.SupplierView;
-import org.example.view.StockView;
+import InventorySystem.view.ProductView;
+import InventorySystem.view.SupplierView;
+import InventorySystem.view.StockView;
 
 import javax.swing.*;
 import java.awt.*;

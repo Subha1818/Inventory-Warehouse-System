@@ -1,5 +1,5 @@
 
-package org.example;
+package InventorySystem;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

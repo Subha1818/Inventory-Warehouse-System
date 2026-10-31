@@ -1,8 +1,8 @@
 
-package org.example.view;
+package InventorySystem.view;
 
-import org.example.model.Product;
-import org.example.model.StockTransaction;
+import InventorySystem.model.Product;
+import InventorySystem.model.StockTransaction;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

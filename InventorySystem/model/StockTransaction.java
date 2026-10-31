@@ -1,5 +1,5 @@
 
-package org.example.model;
+package InventorySystem.model;
 
 public class StockTransaction {
     private int id;

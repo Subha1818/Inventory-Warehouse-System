@@ -1,10 +1,10 @@
 
-package org.example.controller;
+package InventorySystem.controller;
 
-import org.example.model.CategoryDAO;
-import org.example.model.Product;
-import org.example.model.ProductDAO;
-import org.example.view.ProductView;
+import InventorySystem.model.CategoryDAO;
+import InventorySystem.model.Product;
+import InventorySystem.model.ProductDAO;
+import InventorySystem.view.ProductView;
 
 import java.sql.SQLException;
 import java.util.List;

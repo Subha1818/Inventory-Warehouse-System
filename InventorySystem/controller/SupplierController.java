@@ -1,8 +1,8 @@
-package org.example.controller;
+package InventorySystem.controller;
 
-import org.example.model.Supplier;
-import org.example.model.SupplierDAO;
-import org.example.view.SupplierView;
+import InventorySystem.model.Supplier;
+import InventorySystem.model.SupplierDAO;
+import InventorySystem.view.SupplierView;
 
 import java.sql.SQLException;
 import java.util.List;

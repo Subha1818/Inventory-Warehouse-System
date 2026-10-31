@@ -1,4 +1,4 @@
-package org.example.model;
+package InventorySystem.model;
 
 public class Supplier {
     private int id;

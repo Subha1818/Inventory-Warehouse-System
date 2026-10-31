@@ -1,11 +1,11 @@
 
-package org.example.controller;
+package InventorySystem.controller;
 
-import org.example.model.Product;
-import org.example.model.ProductDAO;
-import org.example.model.StockDAO;
-import org.example.model.StockTransaction;
-import org.example.view.StockView;
+import InventorySystem.model.Product;
+import InventorySystem.model.ProductDAO;
+import InventorySystem.model.StockDAO;
+import InventorySystem.model.StockTransaction;
+import InventorySystem.view.StockView;
 
 import java.sql.SQLException;
 import java.util.List;
