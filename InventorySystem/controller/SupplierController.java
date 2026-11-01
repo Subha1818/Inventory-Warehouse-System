@@ -27,9 +27,19 @@ public class SupplierController {
         String phone = view.getPhone();
         String address = view.getAddress();
 
-        if (name.isEmpty() || phone.isEmpty()) {
-            view.showMessage(
-                    "Please enter the supplier name and phone number."
+        if (name.isEmpty()) {
+            view.showWarning("Supplier name cannot be empty.");
+            return;
+        }
+
+        if (phone.isEmpty()) {
+            view.showWarning("Phone number cannot be empty.");
+            return;
+        }
+
+        if (!phone.matches("[0-9]{10}")) {
+            view.showWarning(
+                    "Phone number must contain exactly 10 digits (0-9)."
             );
             return;
         }

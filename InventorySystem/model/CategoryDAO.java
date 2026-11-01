@@ -31,16 +31,31 @@ public class CategoryDAO {
     }
 
     // Add a new category
-    public void addCategory(String name) throws SQLException {
+    public boolean addCategory(String name) throws SQLException {
+        String categoryName = name.trim();
 
-        String sql = "INSERT OR IGNORE INTO categories (name) VALUES (?)";
+        try (Connection con = Database.getConnection()) {
+            String checkSql = "SELECT name FROM categories";
 
-        try (Connection con = Database.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+            try (PreparedStatement ps = con.prepareStatement(checkSql);
+                 ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    if (categoryName.equalsIgnoreCase(
+                            rs.getString("name").trim())) {
+                        return false;
+                    }
+                }
+            }
 
-            ps.setString(1, name.trim());
-            ps.executeUpdate();
+            String insertSql =
+                    "INSERT INTO categories (name) VALUES (?)";
+            try (PreparedStatement ps = con.prepareStatement(insertSql)) {
+                ps.setString(1, categoryName);
+                ps.executeUpdate();
+            }
         }
+
+        return true;
     }
 
     // Get all category names

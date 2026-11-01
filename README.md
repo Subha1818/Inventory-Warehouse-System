@@ -16,8 +16,9 @@ The application provides a graphical user interface (GUI) built using Java Swing
 ## 3. Main Features
 
 - Add and view products.
-- Organize products by category.
+- Add categories and organize products by category.
 - Add and view supplier details.
+- Validate positive product quantities and 10-digit supplier phone numbers.
 - Record stock inward and outward movements.
 - View stock transaction history.
 - Prevent issuing more stock than is available.

@@ -23,6 +23,7 @@ public class ProductController {
 
         // Connect buttons to controller methods
         view.setAddListener(e -> addProduct());
+        view.setAddCategoryListener(e -> addCategory());
         view.setRefreshListener(e -> loadProducts());
 
         // Load data when the application starts
@@ -40,6 +41,33 @@ public class ProductController {
             view.showMessage(
                     "Unable to load categories: " + e.getMessage()
             );
+        }
+    }
+
+    private void addCategory() {
+        String category = view.promptCategoryName();
+        if (category == null) {
+            return;
+        }
+
+        category = category.trim();
+        if (category.isEmpty()) {
+            view.showWarning("Category name cannot be empty.");
+            return;
+        }
+
+        try {
+            if (!categoryDAO.addCategory(category)) {
+                view.showWarning("That category already exists.");
+                return;
+            }
+
+            loadCategories();
+            view.selectCategory(category);
+            view.showMessage("Category added successfully!");
+
+        } catch (SQLException e) {
+            view.showMessage("Database error: " + e.getMessage());
         }
     }
 
@@ -63,8 +91,8 @@ public class ProductController {
         try {
             int quantity = Integer.parseInt(quantityText);
 
-            if (quantity < 0) {
-                view.showMessage("Quantity cannot be negative.");
+            if (quantity <= 0) {
+                view.showWarning("Quantity must be greater than zero.");
                 return;
             }
 

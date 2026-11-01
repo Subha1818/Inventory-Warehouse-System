@@ -108,4 +108,13 @@ public class SupplierView extends JPanel {
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
+
+    public void showWarning(String message) {
+        JOptionPane.showMessageDialog(
+                this,
+                message,
+                "Validation Warning",
+                JOptionPane.WARNING_MESSAGE
+        );
+    }
 }

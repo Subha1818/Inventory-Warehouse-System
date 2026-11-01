@@ -17,6 +17,7 @@ public class ProductView extends JPanel {
     private DefaultTableModel tableModel;
 
     private ActionListener addListener;
+    private ActionListener addCategoryListener;
     private ActionListener refreshListener;
 
     public ProductView() {
@@ -32,6 +33,7 @@ public class ProductView extends JPanel {
         categoryComboBox = new JComboBox<>();
 
         JButton addButton = new JButton("Add Product");
+        JButton addCategoryButton = new JButton("Add Category");
         JButton refreshButton = new JButton("Refresh");
 
         inputPanel.add(new JLabel("Product Name:"));
@@ -42,6 +44,7 @@ public class ProductView extends JPanel {
 
         inputPanel.add(new JLabel("Category:"));
         inputPanel.add(categoryComboBox);
+        inputPanel.add(addCategoryButton);
 
         inputPanel.add(addButton);
         inputPanel.add(refreshButton);
@@ -71,6 +74,12 @@ public class ProductView extends JPanel {
             }
         });
 
+        addCategoryButton.addActionListener(e -> {
+            if (addCategoryListener != null) {
+                addCategoryListener.actionPerformed(e);
+            }
+        });
+
         refreshButton.addActionListener(e -> {
             if (refreshListener != null) {
                 refreshListener.actionPerformed(e);
@@ -80,6 +89,10 @@ public class ProductView extends JPanel {
 
     public void setAddListener(ActionListener listener) {
         addListener = listener;
+    }
+
+    public void setAddCategoryListener(ActionListener listener) {
+        addCategoryListener = listener;
     }
 
     public void setRefreshListener(ActionListener listener) {
@@ -107,6 +120,19 @@ public class ProductView extends JPanel {
         }
     }
 
+    public void selectCategory(String category) {
+        categoryComboBox.setSelectedItem(category);
+    }
+
+    public String promptCategoryName() {
+        return JOptionPane.showInputDialog(
+                this,
+                "Enter a category name:",
+                "Add Category",
+                JOptionPane.PLAIN_MESSAGE
+        );
+    }
+
     public void clearFields() {
         nameField.setText("");
         quantityField.setText("");
@@ -128,5 +154,14 @@ public class ProductView extends JPanel {
 
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
+    }
+
+    public void showWarning(String message) {
+        JOptionPane.showMessageDialog(
+                this,
+                message,
+                "Validation Warning",
+                JOptionPane.WARNING_MESSAGE
+        );
     }
 }
