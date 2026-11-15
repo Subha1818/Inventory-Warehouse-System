@@ -64,4 +64,17 @@ public class SupplierDAO {
 
         return suppliers;
     }
+
+    public int getTotalSuppliers() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM suppliers";
+
+        try (Connection con = Database.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (!rs.next()) {
+                throw new SQLException("Could not read the supplier count.");
+            }
+            return rs.getInt(1);
+        }
+    }
 }

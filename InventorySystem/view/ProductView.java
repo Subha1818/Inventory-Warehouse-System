@@ -23,18 +23,26 @@ public class ProductView extends JPanel {
     public ProductView() {
 
         setLayout(new BorderLayout(10, 10));
+        setBackground(UITheme.BACKGROUND);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Input fields
         JPanel inputPanel = new JPanel(new FlowLayout());
+        inputPanel.setBackground(Color.WHITE);
 
         nameField = new JTextField(10);
         quantityField = new JTextField(5);
         categoryComboBox = new JComboBox<>();
+        UITheme.styleInput(nameField);
+        UITheme.styleInput(quantityField);
+        UITheme.styleInput(categoryComboBox);
 
         JButton addButton = new JButton("Add Product");
         JButton addCategoryButton = new JButton("Add Category");
         JButton refreshButton = new JButton("Refresh");
+        UITheme.styleButton(addButton, true);
+        UITheme.styleButton(addCategoryButton, true);
+        UITheme.styleButton(refreshButton, false);
 
         inputPanel.add(new JLabel("Product Name:"));
         inputPanel.add(nameField);
@@ -61,7 +69,10 @@ public class ProductView extends JPanel {
         };
 
         JTable table = new JTable(tableModel);
+        UITheme.styleTable(table);
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(BorderFactory.createLineBorder(UITheme.BORDER));
+        scrollPane.getViewport().setBackground(Color.WHITE);
 
         // Panel layout
         add(inputPanel, BorderLayout.NORTH);

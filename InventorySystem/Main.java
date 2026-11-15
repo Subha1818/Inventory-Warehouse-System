@@ -4,6 +4,7 @@ package InventorySystem;
 import InventorySystem.controller.ProductController;
 import InventorySystem.controller.SupplierController;
 import InventorySystem.controller.StockController;
+import InventorySystem.controller.DashboardController;
 
 import InventorySystem.model.CategoryDAO;
 import InventorySystem.model.ProductDAO;
@@ -13,6 +14,8 @@ import InventorySystem.model.StockDAO;
 import InventorySystem.view.ProductView;
 import InventorySystem.view.SupplierView;
 import InventorySystem.view.StockView;
+import InventorySystem.view.DashboardView;
+import InventorySystem.view.UITheme;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,17 +43,38 @@ public class Main {
                 ProductView productView = new ProductView();
                 SupplierView supplierView = new SupplierView();
                 StockView stockView = new StockView();
+                DashboardView dashboardView = new DashboardView();
+
+                DashboardController dashboardController =
+                        new DashboardController(
+                                productDAO,
+                                supplierDAO,
+                                categoryDAO,
+                                dashboardView
+                        );
+                Runnable refreshDashboard =
+                        dashboardController::refreshStatistics;
 
                 // Connect each panel to its controller
-                new ProductController(productDAO, productView);
+                new ProductController(
+                        productDAO,
+                        productView,
+                        refreshDashboard
+                );
 
-                new SupplierController(supplierDAO, supplierView);
+                new SupplierController(
+                        supplierDAO,
+                        supplierView,
+                        refreshDashboard
+                );
 
                 new StockController(
                         productDAO,
                         stockDAO,
-                        stockView
+                        stockView,
+                        refreshDashboard
                 );
+                dashboardController.refreshStatistics();
 
                 // Create the main application window
                 JFrame frame = new JFrame(
@@ -62,6 +86,7 @@ public class Main {
                 frame.setMinimumSize(new Dimension(800, 500));
                 frame.setLocationRelativeTo(null);
                 frame.setLayout(new BorderLayout());
+                frame.getContentPane().setBackground(UITheme.BACKGROUND);
 
                 // Application heading
                 JLabel heading = new JLabel(
@@ -70,24 +95,40 @@ public class Main {
                 );
 
                 heading.setFont(new Font("Arial", Font.BOLD, 20));
+                heading.setForeground(UITheme.TEXT);
                 heading.setBorder(
                         BorderFactory.createEmptyBorder(15, 10, 15, 10)
                 );
 
                 // Create tabs
+                UIManager.put("TabbedPane.tabInsets", new Insets(8, 16, 8, 16));
                 JTabbedPane tabs = new JTabbedPane();
+                tabs.setBackground(UITheme.BACKGROUND);
+                tabs.setForeground(UITheme.TEXT);
+                tabs.setFont(new Font("Arial", Font.BOLD, 14));
 
                 tabs.addTab("Products", productView);
                 tabs.addTab("Suppliers", supplierView);
                 tabs.addTab("Stock Management", stockView);
+                for (int i = 0; i < tabs.getTabCount(); i++) {
+                    tabs.setBackgroundAt(i, UITheme.LIGHT_TEAL);
+                    tabs.setForegroundAt(i, UITheme.TEXT);
+                }
 
                 // Add the logo beside the heading
                 JPanel header = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+                header.setBackground(UITheme.BACKGROUND);
                 header.add(new WarehouseLogo());
                 header.add(heading);
 
-                // Add heading and tabs to the main window
-                frame.add(header, BorderLayout.NORTH);
+                JPanel topPanel = new JPanel();
+                topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+                topPanel.setBackground(UITheme.BACKGROUND);
+                topPanel.add(header);
+                topPanel.add(dashboardView);
+
+                // Add heading, dashboard, and tabs to the main window
+                frame.add(topPanel, BorderLayout.NORTH);
                 frame.add(tabs, BorderLayout.CENTER);
 
                 // Display the application

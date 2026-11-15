@@ -15,18 +15,24 @@ public class StockController {
     private final ProductDAO productDAO;
     private final StockDAO stockDAO;
     private final StockView view;
+    private final Runnable dashboardRefresh;
 
     public StockController(
             ProductDAO productDAO,
             StockDAO stockDAO,
-            StockView view) {
+            StockView view,
+            Runnable dashboardRefresh) {
 
         this.productDAO = productDAO;
         this.stockDAO = stockDAO;
         this.view = view;
+        this.dashboardRefresh = dashboardRefresh;
 
         view.setRecordListener(e -> recordStock());
-        view.setRefreshListener(e -> refreshData());
+        view.setRefreshListener(e -> {
+            refreshData();
+            dashboardRefresh.run();
+        });
 
         refreshData();
     }
@@ -63,6 +69,7 @@ public class StockController {
             view.showMessage("Stock transaction recorded!");
             view.clearQuantity();
             refreshData();
+            dashboardRefresh.run();
 
         } catch (NumberFormatException e) {
             view.showMessage(

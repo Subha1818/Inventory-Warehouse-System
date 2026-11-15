@@ -24,6 +24,7 @@ public class StockView extends JPanel {
     public StockView() {
 
         setLayout(new BorderLayout(10, 10));
+        setBackground(UITheme.BACKGROUND);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         productComboBox = new JComboBox<>();
@@ -34,8 +35,14 @@ public class StockView extends JPanel {
 
         recordButton = new JButton("Record Stock");
         refreshButton = new JButton("Refresh");
+        UITheme.styleInput(productComboBox);
+        UITheme.styleInput(typeComboBox);
+        UITheme.styleInput(quantityField);
+        UITheme.styleButton(recordButton, true);
+        UITheme.styleButton(refreshButton, false);
 
         JPanel formPanel = new JPanel(new FlowLayout());
+        formPanel.setBackground(Color.WHITE);
 
         formPanel.add(new JLabel("Product:"));
         formPanel.add(productComboBox);
@@ -67,9 +74,13 @@ public class StockView extends JPanel {
         };
 
         transactionTable = new JTable(tableModel);
+        UITheme.styleTable(transactionTable);
 
         add(formPanel, BorderLayout.NORTH);
-        add(new JScrollPane(transactionTable), BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(transactionTable);
+        scrollPane.setBorder(BorderFactory.createLineBorder(UITheme.BORDER));
+        scrollPane.getViewport().setBackground(Color.WHITE);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     public Product getSelectedProduct() {

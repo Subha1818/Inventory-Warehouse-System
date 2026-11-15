@@ -14,17 +14,25 @@ public class ProductController {
     private ProductDAO dao;
     private CategoryDAO categoryDAO;
     private ProductView view;
+    private final Runnable dashboardRefresh;
 
-    public ProductController(ProductDAO dao, ProductView view) {
+    public ProductController(
+            ProductDAO dao,
+            ProductView view,
+            Runnable dashboardRefresh) {
 
         this.dao = dao;
         this.categoryDAO = new CategoryDAO();
         this.view = view;
+        this.dashboardRefresh = dashboardRefresh;
 
         // Connect buttons to controller methods
         view.setAddListener(e -> addProduct());
         view.setAddCategoryListener(e -> addCategory());
-        view.setRefreshListener(e -> loadProducts());
+        view.setRefreshListener(e -> {
+            loadProducts();
+            dashboardRefresh.run();
+        });
 
         // Load data when the application starts
         loadCategories();
@@ -64,6 +72,7 @@ public class ProductController {
 
             loadCategories();
             view.selectCategory(category);
+            dashboardRefresh.run();
             view.showMessage("Category added successfully!");
 
         } catch (SQLException e) {
@@ -106,6 +115,7 @@ public class ProductController {
             view.clearFields();
 
             loadProducts();
+            dashboardRefresh.run();
 
         } catch (NumberFormatException e) {
             view.showMessage("Quantity must be a valid whole number.");

@@ -11,13 +11,21 @@ public class SupplierController {
 
     private final SupplierDAO dao;
     private final SupplierView view;
+    private final Runnable dashboardRefresh;
 
-    public SupplierController(SupplierDAO dao, SupplierView view) {
+    public SupplierController(
+            SupplierDAO dao,
+            SupplierView view,
+            Runnable dashboardRefresh) {
         this.dao = dao;
         this.view = view;
+        this.dashboardRefresh = dashboardRefresh;
 
         view.setAddListener(e -> addSupplier());
-        view.setRefreshListener(e -> loadSuppliers());
+        view.setRefreshListener(e -> {
+            loadSuppliers();
+            dashboardRefresh.run();
+        });
 
         loadSuppliers();
     }
@@ -54,6 +62,7 @@ public class SupplierController {
             view.clearFields();
 
             loadSuppliers();
+            dashboardRefresh.run();
 
         } catch (SQLException e) {
             view.showMessage(

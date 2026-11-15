@@ -13,6 +13,34 @@ import java.util.List;
 
 public class ProductDAO {
 
+    public int getTotalProducts() throws SQLException {
+        return getCount("SELECT COUNT(*) FROM products");
+    }
+
+    public int getTotalStockUnits() throws SQLException {
+        String sql = "SELECT COALESCE(SUM(quantity), 0) FROM products";
+
+        try (Connection con = Database.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (!rs.next()) {
+                throw new SQLException("Could not read total stock units.");
+            }
+            return rs.getInt(1);
+        }
+    }
+
+    private int getCount(String sql) throws SQLException {
+        try (Connection con = Database.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (!rs.next()) {
+                throw new SQLException("Could not read the total count.");
+            }
+            return rs.getInt(1);
+        }
+    }
+
     // Add a product with its category
     public void addProduct(Product product) throws SQLException {
 

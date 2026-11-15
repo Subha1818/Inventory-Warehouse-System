@@ -23,6 +23,7 @@ public class SupplierView extends JPanel {
     public SupplierView() {
 
         setLayout(new BorderLayout(10, 10));
+        setBackground(UITheme.BACKGROUND);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         nameField = new JTextField(15);
@@ -31,8 +32,14 @@ public class SupplierView extends JPanel {
 
         addButton = new JButton("Add Supplier");
         refreshButton = new JButton("Refresh");
+        UITheme.styleInput(nameField);
+        UITheme.styleInput(phoneField);
+        UITheme.styleInput(addressField);
+        UITheme.styleButton(addButton, true);
+        UITheme.styleButton(refreshButton, false);
 
         JPanel formPanel = new JPanel(new GridLayout(4, 2, 8, 8));
+        formPanel.setBackground(Color.WHITE);
         formPanel.setBorder(
                 BorderFactory.createEmptyBorder(5, 5, 10, 5)
         );
@@ -59,9 +66,13 @@ public class SupplierView extends JPanel {
         };
 
         supplierTable = new JTable(tableModel);
+        UITheme.styleTable(supplierTable);
 
         add(formPanel, BorderLayout.NORTH);
-        add(new JScrollPane(supplierTable), BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(supplierTable);
+        scrollPane.setBorder(BorderFactory.createLineBorder(UITheme.BORDER));
+        scrollPane.getViewport().setBackground(Color.WHITE);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     public String getSupplierName() {

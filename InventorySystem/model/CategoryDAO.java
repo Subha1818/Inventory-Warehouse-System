@@ -76,4 +76,17 @@ public class CategoryDAO {
 
         return categories;
     }
+
+    public int getTotalCategories() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM categories";
+
+        try (Connection con = Database.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (!rs.next()) {
+                throw new SQLException("Could not read the category count.");
+            }
+            return rs.getInt(1);
+        }
+    }
 }
