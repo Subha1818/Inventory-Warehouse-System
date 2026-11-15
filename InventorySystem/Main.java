@@ -81,8 +81,13 @@ public class Main {
                 tabs.addTab("Suppliers", supplierView);
                 tabs.addTab("Stock Management", stockView);
 
+                // Add the logo beside the heading
+                JPanel header = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+                header.add(new WarehouseLogo());
+                header.add(heading);
+
                 // Add heading and tabs to the main window
-                frame.add(heading, BorderLayout.NORTH);
+                frame.add(header, BorderLayout.NORTH);
                 frame.add(tabs, BorderLayout.CENTER);
 
                 // Display the application
@@ -100,5 +105,30 @@ public class Main {
                 );
             }
         });
+    }
+
+    private static class WarehouseLogo extends JLabel {
+
+        WarehouseLogo() {
+            setText("<html>Warehouse<br>System</html>");
+            setForeground(Color.WHITE);
+            setBackground(new Color(0, 128, 128));
+            setFont(new Font("Arial", Font.BOLD, 9));
+            setHorizontalAlignment(SwingConstants.CENTER);
+            setPreferredSize(new Dimension(58, 58));
+            setOpaque(true);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            g.setColor(getBackground());
+            g.fillOval(0, 0, getWidth(), getHeight());
+            super.paintComponent(g);
+        }
+
+        @Override
+        public boolean isOpaque() {
+            return false;
+        }
     }
 }
